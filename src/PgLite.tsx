@@ -7,6 +7,7 @@ import {
   usePGlite,
   useLiveQuery,
 } from "@electric-sql/pglite-react";
+import "./style.css";
 
 const pg = await PGlite.create({
   dataDir: "idb://my-pgdata",
@@ -40,10 +41,10 @@ function MyComponent() {
 
   return (
     <>
-      <h1> PGLite x React </h1>
+      <h1 className="text-general"> PGlite x React </h1>
       <button onClick={insertItem}>Insert Item</button>
       {items?.rows.map((item: any) => (
-        <p key={item.id}>
+        <p key={item.id} className="text-general">
           - ({item.id}) {item.name}
         </p>
       ))}

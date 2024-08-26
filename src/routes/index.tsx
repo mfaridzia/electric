@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useShape } from "@electric-sql/react";
 import { v4 as uuidv4 } from "uuid";
+import "../style.css";
 
 type Todo = {
   id: string;
@@ -18,46 +19,43 @@ export default function Index() {
   todos.sort((a, b) => a.created_at - b.created_at);
 
   return (
-    <div>
-      <h1>Electric Todo</h1>
+    <div className="container">
+      <h1 className="title">Todos</h1>
 
-      {todos.map((todo) => {
-        return (
-          <div key={todo.id}>
-            <span>{todo.title}</span>
-            <input
-              type="checkbox"
-              defaultChecked={todo.completed}
-              onClick={async () => {
-                await fetch(`http://localhost:3010/todos/${todo.id}`, {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    completed: !todo.completed,
-                  }),
-                });
-              }}
-            />
-
-            <button
-              style={{ cursor: "pointer" }}
-              onClick={async () => {
-                await fetch(`http://localhost:3010/todos/${todo.id}`, {
-                  method: "DELETE",
-                });
-              }}
-            >
-              Delete (x)
-            </button>
-            <br />
-            <br />
-          </div>
-        );
-      })}
+      {todos.map((todo) => (
+        <div key={todo.id} className="todo-item">
+          <span className="todo-title">{todo.title}</span>
+          <input
+            type="checkbox"
+            defaultChecked={todo.completed}
+            className="todo-checkbox"
+            onClick={async () => {
+              await fetch(`http://localhost:3010/todos/${todo.id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  completed: !todo.completed,
+                }),
+              });
+            }}
+          />
+          <button
+            className="delete-button"
+            onClick={async () => {
+              await fetch(`http://localhost:3010/todos/${todo.id}`, {
+                method: "DELETE",
+              });
+            }}
+          >
+            Delete (x)
+          </button>
+        </div>
+      ))}
 
       <form
+        className="new-todo-form"
         onSubmit={async (event) => {
           event.preventDefault();
           const id = uuidv4();
@@ -78,7 +76,14 @@ export default function Index() {
           }
         }}
       >
-        <input type="text" name="todo" placeholder="New Todo" ref={inputRef} />
+        <input
+          type="text"
+          name="todo"
+          placeholder="New Todo"
+          ref={inputRef}
+          className="new-todo-input"
+          autoComplete="off"
+        />
       </form>
     </div>
   );

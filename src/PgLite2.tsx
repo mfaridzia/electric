@@ -13,9 +13,9 @@ const pg = await PGlite.create({
   },
 });
 
-function MyComponent() {
+function Component() {
   useEffect(() => {
-    const func = async () => {
+    const execAndSyncTable = async () => {
       await pg.exec(`
         CREATE TABLE IF NOT EXISTS todos (
           id UUID PRIMARY KEY,
@@ -27,7 +27,8 @@ function MyComponent() {
 
       await pg.electric.syncShapeToTable({
         url: "http://localhost:3000/v1/shape/todos?offset=-1",
-        //schema: "todos",
+        // schema: "todos",
+        // subscribe: true,
         table: "todos",
         primaryKey: ["id"],
       });
@@ -35,10 +36,10 @@ function MyComponent() {
       console.log("Table created, starting sync...");
     };
 
-    func();
+    execAndSyncTable();
   }, []);
 
-  const items = useLiveQuery("SELECT * FROM todos;", null);
+  const items = useLiveQuery("SELECT title, completed FROM todos;", null);
 
   pg.live.query("SELECT * FROM todos", null, (res) => {
     console.log(`Rendering update`);
@@ -60,7 +61,7 @@ function MyComponent() {
 export default function PgLite2() {
   return (
     <PGliteProvider db={pg}>
-      <MyComponent />
+      <Component />
     </PGliteProvider>
   );
 }
