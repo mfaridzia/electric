@@ -10,7 +10,7 @@ import {
 import "./style.css";
 
 const pg = await PGlite.create({
-  dataDir: "idb://my-pgdata",
+  dataDir: "idb://my-local-data",
   extensions: {
     live,
   },

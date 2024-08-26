@@ -11,9 +11,9 @@
     "db:migrate": "pg-migrations apply --directory ./db/migrations"
   },
   "dependencies": {
-    "@electric-sql/pglite": "^0.2.3",
-    "@electric-sql/pglite-react": "^0.2.3",
-    "@electric-sql/pglite-sync": "^0.2.3",
+    "@electric-sql/pglite": "^0.2.4",
+    "@electric-sql/pglite-react": "^0.2.4",
+    "@electric-sql/pglite-sync": "^0.2.4",
     "@electric-sql/react": "^0.2.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

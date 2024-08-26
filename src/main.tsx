@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./Error";
+import ErrorPage from "./error-page";
 import Index from "./routes/index";
 import Root from "./routes/root";
 import App from "./App";
-import PgLite2 from "./PgLite2";
-import PgLite from "./PgLite";
+import PgliteSync from "./pglite-sync";
+import PgliteLocal from "./pglite-local";
 
 const router = createBrowserRouter([
   {
@@ -25,12 +25,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/pglite",
-    element: <PgLite2 />,
+    path: "/pglite-sync",
+    element: <PgliteSync />,
   },
   {
     path: "/pglite-local",
-    element: <PgLite />,
+    element: <PgliteLocal />,
   },
 ]);
 
