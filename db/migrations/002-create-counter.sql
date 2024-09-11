@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS counter (
+    id UUID PRIMARY KEY
+);

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
+import Counter from "./routes/counter";
 import Root from "./routes/root";
 import App from "./App";
 import PgliteSync from "./pglite-sync";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/app",
         element: <App />,
+      },
+      {
+        path: "/counter",
+        element: <Counter />,
       },
     ],
   },

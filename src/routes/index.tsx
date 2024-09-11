@@ -12,23 +12,27 @@ type Todo = {
 
 export default function Index() {
   const inputRef = useRef<HTMLInputElement>(null);
-
   const { data: todos } = useShape({
-    url: `http://localhost:3000/v1/shape/todos`,
+    url: "http://localhost:3000/v1/shape/todos",
   }) as unknown as { data: Todo[] };
   todos.sort((a, b) => a.created_at - b.created_at);
 
   return (
     <div className="container">
-      <h1 className="title">Todos</h1>
+      {/* <h1 className="title">Todos</h1> */}
 
       {todos.map((todo) => (
         <div key={todo.id} className="todo-item">
-          <span className="todo-title">{todo.title}</span>
-          <input
-            type="checkbox"
-            defaultChecked={todo.completed}
-            className="todo-checkbox"
+          <span
+            className="todo-title"
+            style={{
+              textDecoration: todo.completed ? "line-through" : "none",
+            }}
+          >
+            {todo.title}
+          </span>
+          <button
+            className="done-button"
             onClick={async () => {
               await fetch(`http://localhost:3010/todos/${todo.id}`, {
                 method: "PUT",
@@ -40,7 +44,9 @@ export default function Index() {
                 }),
               });
             }}
-          />
+          >
+            {todo.completed ? "Undone" : "Done"}
+          </button>
           <button
             className="delete-button"
             onClick={async () => {

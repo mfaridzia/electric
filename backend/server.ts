@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import pg from "pg";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 dotenv.config();
 
@@ -109,6 +110,14 @@ app.delete(`/todos/:id`, async (req, res) => {
   res.send(`ok`);
 });
 
+app.post(`/counter`, async (req, res) => {
+  try {
+    await client.query(`INSERT INTO counter (id) VALUES ($1)`, [uuidv4()]);
+  } catch (e) {
+    return res.status(500).json({ errors: e });
+  }
+  res.send(`ok`);
+});
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
