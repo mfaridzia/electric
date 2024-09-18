@@ -19,8 +19,6 @@ export default function Index() {
 
   return (
     <div className="container">
-      {/* <h1 className="title">Todos</h1> */}
-
       {todos.map((todo) => (
         <div key={todo.id} className="todo-item">
           <span

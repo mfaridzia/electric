@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
 import { PGlite } from "@electric-sql/pglite";
 import { live } from "@electric-sql/pglite/live";
 import {
@@ -9,6 +7,11 @@ import {
 } from "@electric-sql/pglite-react";
 import "./style.css";
 
+type Item = {
+  id: string;
+  name: string;
+};
+
 const pg = await PGlite.create({
   dataDir: "idb://my-local-data",
   extensions: {
@@ -16,36 +19,32 @@ const pg = await PGlite.create({
   },
 });
 
+await pg.exec(`
+  CREATE TABLE IF NOT EXISTS items (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+  );
+`);
+
+console.log("Table created, starting sync...");
+
 function MyComponent() {
   const db = usePGlite();
   const insertItem = () => {
-    db.query("INSERT INTO test (name) VALUES ('Fulan')");
+    db.query("INSERT INTO items (name) VALUES ($1);", [
+      `Fulan-${Math.random()}`,
+    ]);
   };
 
-  useEffect(() => {
-    const func = async () => {
-      await pg.exec(`
-        CREATE TABLE IF NOT EXISTS test (
-          id SERIAL PRIMARY KEY,
-          name TEXT
-        );
-      `);
-
-      console.log("Table created, starting sync...");
-    };
-
-    func();
-  }, []);
-
-  const items = useLiveQuery("SELECT * FROM test ORDER BY id;", null);
+  const items = useLiveQuery<Item>("SELECT * FROM items ORDER BY id;", null);
 
   return (
     <>
       <h1 className="text-general"> PGlite x React </h1>
       <button onClick={insertItem}>Insert Item</button>
-      {items?.rows.map((item: any) => (
+      {items?.rows.map((item) => (
         <p key={item.id} className="text-general">
-          - ({item.id}) {item.name}
+          {item.name}
         </p>
       ))}
     </>
